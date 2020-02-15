@@ -1,6 +1,6 @@
 {
   "name": "dva16",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "dva-style state manage framework for react16 hook",
   "main": "index.js",
   "scripts": {
@@ -14,7 +14,9 @@
     "react16",
     "hook",
     "dva",
-    "zustand"
+    "zustand",
+    "immer",
+    "axios"
   ],
   "author": "fred.feng",
   "license": "MIT",
