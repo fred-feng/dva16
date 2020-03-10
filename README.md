@@ -1,6 +1,5 @@
 import { initDva, initRequest } from 'dva16'
 
-
 1.初始化model
     import user from './user'
     initDva([user])
@@ -104,6 +103,7 @@ export default {
     token : 
         type => String   
         explain => 请求头 Token
-=======
+
 安装
   npm install dva16
+
