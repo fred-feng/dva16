@@ -1,9 +1,3 @@
-########## 安装 ##########
-
-$ npm install dva16 --save
-
-########## 引入 ##########
-
 import { initDva, initRequest } from 'dva16'
 
 
@@ -110,3 +104,6 @@ export default {
     token : 
         type => String   
         explain => 请求头 Token
+=======
+安装
+  npm install dva16
