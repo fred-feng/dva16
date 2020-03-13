@@ -65,6 +65,19 @@ export function bindModel({ namespace, state, reducers, effects }) {
 export function useStore(namespace) {
   return store[namespace] ? { ...store[namespace].zustand[0]() } : null;
 }
+export function dispatch(namespace, type, payload) {
+  config.printLog && console.log("[dispatch]", namespace, type, payload);
+  let { reducers, effects } = store[namespace];
+  if (reducers[type]) {
+    reducer(namespace, type, payload);
+  } else if (effects[type]) {
+    effect(namespace, type, payload);
+  } else {
+    console.error(
+      `dispatch[${type}] function not exsits in models[${namespace}]`
+    );
+  }
+}
 export function reducer(namespace, type, payload) {
   config.printLog && console.log("[reducer]", namespace, type, payload);
   let { set, get, reducers } = store[namespace];
@@ -109,7 +122,7 @@ export function effect(namespace, type, payload) {
 }
 
 /* restful + json + jwt基本网络库 */
-const requstParams = {}; // { serverHome: null, errorHanlder: null, extraHeaders: {} }
+const requstParams = { serverHome: null, errorHanlder: null, extraHeaders: {} };
 export function initRequest(serverHome, errorHanlder) {
   if (requstParams) {
     requstParams.serverHome = serverHome;
@@ -148,7 +161,7 @@ function request(url, options) {
     let option = {
       method,
       url,
-      header: {
+      headers: {
         Accept: "application/json",
         Pragma: "no-cache",
         "Cache-Control": "no-cache",
