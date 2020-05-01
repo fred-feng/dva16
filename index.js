@@ -8,17 +8,17 @@ import produce from "immer";
 /* 参考dva接口绑定 */
 const config = {};
 const store = {};
-const immer = config => (set, get, api) =>
-  config(fn => set(produce(fn)), get, api);
-const wrapPromise = promise => {
+const immer = (config) => (set, get, api) =>
+  config((fn) => set(produce(fn)), get, api);
+const wrapPromise = (promise) => {
   let status = "pending";
   let result;
   let suspender = promise.then(
-    r => {
+    (r) => {
       status = "success";
       result = r;
     },
-    e => {
+    (e) => {
       status = "error";
       result = e;
     }
@@ -32,7 +32,7 @@ const wrapPromise = promise => {
       } else if (status === "success") {
         return result;
       }
-    }
+    },
   };
 };
 export function initDva(models, { printLog = false, useImmer = true } = {}) {
@@ -53,9 +53,9 @@ export function bindModel({ namespace, state, reducers, effects }) {
         if (vo.suspense[type]) {
           vo.suspense[type].read();
         } else if (pendingWithoutPromise) {
-          throw new Promise(res => res).then();
+          throw new Promise((res) => res).then();
         }
-      }
+      },
     };
   };
   vo.zustand = config.useImmer ? create(immer(exec)) : create(exec);
@@ -110,7 +110,7 @@ export function effect(namespace, type, payload) {
             }
             effect(...args);
           },
-          select: namespace => store[namespace].get()
+          select: (namespace) => store[namespace].get(),
         }
       )
     );
@@ -128,6 +128,9 @@ export function initRequest(serverHome, errorHanlder) {
     requstParams.serverHome = serverHome;
     requstParams.errorHanlder = errorHanlder;
   }
+}
+export function bindHeader(key, value) {
+  requstParams.extraHeaders[key] = value;
 }
 export function bindJWTToken(token) {
   requstParams.extraHeaders["Authorization"] = token
@@ -167,9 +170,9 @@ function request(url, options) {
         "Cache-Control": "no-cache",
         Expires: 0,
         "Content-Type": "application/json; charset=utf-8",
-        ...requstParams.extraHeaders
+        ...requstParams.extraHeaders,
       },
-      dataType: "json"
+      dataType: "json",
     };
     // 参数赋值
     switch (method.toUpperCase()) {
@@ -189,7 +192,7 @@ function request(url, options) {
         config.printLog && console.log("[request]", method, body, data);
         resolve(data);
       })
-      .catch(e => {
+      .catch((e) => {
         if (e.response) {
           let { status, data } = e.response;
           requstParams.errorHanlder(status, data);
