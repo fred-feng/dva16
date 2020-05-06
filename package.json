@@ -1,6 +1,6 @@
 {
   "name": "dva16",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "dva-style state manage framework for react16 hook",
   "main": "index.js",
   "scripts": {
